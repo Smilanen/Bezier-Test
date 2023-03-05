@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bezier Curve!</title>
+    <meta name="description" content="description"/>
+    <meta name="author" content="author" />
+    <meta name="keywords" content="keywords" />
+    <link rel="stylesheet" href="./stylesheet.css" type="text/css" />
+    <style type="text/css">
+          svg {max-height: 80vh;}
+          path {fill: none; stroke: black;}
+
+     </style>
+  </head>
+  <body>
+     <button onclick="testdraw()">Draw</button>
+     <svg class="svgtest" viewBox="0 0 100 100">
+          <path d="M 20 20 L 20 80, 60 60"></path>
+          <path d="M 20 20 C 20 40, 40 80, 80 80"></path>
+     </svg>
+     <script src="bezier.js"></script>
+
+  </body>
+</html>
