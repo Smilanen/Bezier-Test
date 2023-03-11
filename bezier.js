@@ -1,24 +1,24 @@
 const points = [
-     [20, 20],
-     [40, 20],
-     [50, 30],
-     [20, 20],
-     [20, 20],
-     [20, 20],
-     [20, 20],
-     [20, 20],
-     [20, 20]
+     {x: 20, y: 20}, // x and y Cordinates
+     {x: 40, y: 20},
+     {x: 50, y: 30},
+     {x: 20, y: 50},
+     {x: 60, y: 20},
+     {x: 20, y: 40},
+     {x: 20, y: 20},
+     {x: 20, y: 20},
+     {x: 20, y: 20}
 ]
 
 function draw(points) {
      const element = document.querySelector(".svgtest")
-     let path = `<path d="M ${points[0][0]} ${points[0][1]} L`
+     let path = `<path d="M ${points[0].x} ${points[0].y} L` // Adds Cordinates to the L or Bèzier Curve
      debugger
-     for(let p of points.slice(1)) {
-          path += `${p[0]} ${p[1]}, `
+     for(let p of points.slice(1)) { // slice = creates an new array  
+          path += `${p.x} ${p.y}, `
      }
      path += `"></path>`
-     element.innerHTML += path
+     element.innerHTML += path 
 }
 
 function testdraw() {
