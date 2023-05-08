@@ -15,10 +15,9 @@ const points = [
      
 ]
 
-function draw(points) {
+function draw(points) { //draws the Bèzier Curve
      const element = document.querySelector(".svgtest")
      let path = `<path d="M ${points[0].x} ${points[0].y} Q` // Adds Cordinates to the L or Bèzier Curve (Q)
-     debugger
      for(let p of points.slice(1)) { // slice = creates an new array  
           path += `${p.x} ${p.y}, `
      }
@@ -26,9 +25,25 @@ function draw(points) {
      element.innerHTML += path 
 }
 
-function testdraw() {
+function testdraw() { //testdraw Button (draw) in html file.
      draw(points)
 }
+
+document.onmousemove= mouseCoordinates; //applys onmousemove to the whole document
+var output= document.getElementById('output') // fetches id 
+
+function mouseCoordinates(event){
+     var xPos= event.clientX; // gets x coordinate
+     var yPos= event.clientY; // gts  y coordinate
+     output.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
+ }
+
+
+ 
+function bezierclick() {
+
+} 
+
 
 // bezier instead of line? (solved with Q for bezier curves) better Visuals including gridmap usw incoming.
 
