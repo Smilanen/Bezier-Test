@@ -17,11 +17,36 @@ const points = [
 
 function draw(points) { //draws the Bèzier Curve
      const element = document.querySelector(".svgtest")
-     let path = `<path d="M ${points[0].x} ${points[0].y} Q` // Adds Cordinates to the L or Bèzier Curve (Q)
-     for(let p of points.slice(1)) { // slice = creates an new array  
-          path += `${p.x} ${p.y}, `
+     //First point
+     let dx = points[1].x - points[0].x
+     let dy = points[1].y - points[0].y
+     let c1x = points[0].x + 1/3 * dx
+     let c1y = points[0].y + 1/3 * dy
+     let path = `<path class="demo" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds Cordinates to the L or Bèzier Curve (Q)
+     // intermediate points
+     for(let i = 1; i < points.length - 1; i++) { 
+          const p = points[i]
+          const prevPoint = points[i-1]
+          const nextPoint = points[i+1]
+          const dx = nextPoint.x - prevPoint.x
+          const dy = nextPoint.y - prevPoint.y
+          const c1x = p.x - 1/6 * dx
+          const c1y = p.y - 1/6 * dy
+          const c2x = p.x + 1/6 * dx
+          const c2y = p.y + 1/6 * dy
+          path += `${c1x} ${c1y}, ${p.x} ${p.y}, ${c2x} ${c2y},`
      }
+     //last point
+     const p = points.at(-1)
+     const prevPoint = points.at(-2)
+     dx = p.x - prevPoint.x
+     dy = p.y - prevPoint.y
+     c1x = p.x - 1/3 * dx
+     c1y = p.y - 1/3 * dy
+     path += `${c1x} ${c1y}, ${p.x} ${p.y}`
+     //close path tag
      path += `"></path>`
+     console.log(path)
      element.innerHTML += path 
 }
 
@@ -42,7 +67,13 @@ function mouseCoordinates(event){
  
 function bezierclick() {
 
-} 
+
+}
+
+
+function click() {
+
+}
 
 
 // bezier instead of line? (solved with Q for bezier curves) better Visuals including gridmap usw incoming.
