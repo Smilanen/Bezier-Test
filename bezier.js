@@ -58,22 +58,32 @@ document.onmousemove= mouseCoordinates; //applys onmousemove to the whole docume
 var output= document.getElementById('output') // fetches id 
 
 function mouseCoordinates(event){
-     var xPos= event.clientX; // gets x coordinate
-     var yPos= event.clientY; // gts  y coordinate
+     var xPos= event.pageX; // gets x coordinate
+     var yPos= event.pageY; // gts  y coordinate
      output.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
  }
 
 
- 
-function bezierclick() {
-
-
+var x = 0
+function Bezierclick() {
+    
+     if (x==0) {
+          window.addEventListener('click', (event) =>{
+               console.log(event.button) })
+               Jange.innerHTML="bing" +x+ "" +"hello" ;
+               return x=+1
+          }else{
+               
+          }    
+          return  x++
 }
 
 
-function click() {
 
-}
+
+
+
+
 
 
 // bezier instead of line? (solved with Q for bezier curves) better Visuals including gridmap usw incoming.
