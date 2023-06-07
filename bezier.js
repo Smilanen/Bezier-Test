@@ -60,23 +60,26 @@ var output= document.getElementById('output') // fetches id
 function mouseCoordinates(event){
      var xPos= event.pageX; // gets x coordinate
      var yPos= event.pageY; // gts  y coordinate
-     output.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
+     cordinateoutput.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
+     return xPos
  }
+ 
 
 
-var x = 0
-function Bezierclick() {
-    
-     if (x==0) {
+
+function Bezierclick(event) {
+     if (x=0, ++x) {
           window.addEventListener('click', (event) =>{
                console.log(event.button) })
-               Jange.innerHTML="bing" +x+ "" +"hello" ;
+               Jange.innerHTML="bing" +xPos+ "" +"hello" + yPo;
                return x=+1
           }else{
                
           }    
-          return  x++
+         
+
 }
+
 
 
 
