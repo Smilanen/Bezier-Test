@@ -15,8 +15,14 @@ const points = [
      
 ]
 
-function draw(points) { //draws the Bèzier Curve
+function draw(points) {
      const element = document.querySelector(".svgtest")
+     const path = drawpoints(points)
+     console.log(path)
+     element.innerHTML += path 
+}
+
+function drawpoints(points) { //draws the Bèzier Curve
      //First point
      let dx = points[1].x - points[0].x
      let dy = points[1].y - points[0].y
@@ -46,8 +52,7 @@ function draw(points) { //draws the Bèzier Curve
      path += `${c1x} ${c1y}, ${p.x} ${p.y}`
      //close path tag
      path += `"></path>`
-     console.log(path)
-     element.innerHTML += path 
+     return path
 }
 
 function testdraw() { //testdraw Button (draw) in html file.
@@ -65,19 +70,26 @@ function mouseCoordinates(event){
  }
  
 
+let active = false
+let mousepoints = []
 
+let mousy = document.querySelector(".svgmouse")
+mousy.addEventListener('click', (event) =>{
+     if(active) {
+          console.log(event) 
+          var xPos= event.offsetX; // gets x coordinate
+          var yPos= event.offsetY; // gts  y coordinate
+          mousepoints.push({x: xPos, y: yPos})
+          Jange.innerHTML="bing" +xPos+ "" +"hello" + yPos;
+          mousy.insertAdjacentHTML("beforeend", `<circle cx=${xPos} cy=${yPos} r="2" fill="red"></circle>`)
+          const path = drawpoints(mousepoints)
+          console.log(path)
+          mousy.innerHTML += path 
+     }
+})
 
 function Bezierclick(event) {
-     if (x=0, ++x) {
-          window.addEventListener('click', (event) =>{
-               console.log(event.button) })
-               Jange.innerHTML="bing" +xPos+ "" +"hello" + yPo;
-               return x=+1
-          }else{
-               
-          }    
-         
-
+     active = !active 
 }
 
 

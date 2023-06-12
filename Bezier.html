@@ -8,7 +8,8 @@
     <meta name="keywords" content="keywords" />
     <link rel="stylesheet" href="./stylesheet.css" type="text/css" />
     <style type="text/css">
-          svg {max-height: 80vh;}
+          svg {height: 100px;}
+          .svgmouse {height: 500px;}
           path {fill: none; stroke: black;}
           .demo {stroke: rgb(56, 200, 240);}
      </style>
@@ -21,7 +22,11 @@
           <path d="M 20 20 L 20 80, 80 80"></path> <!--create triangle --> 
           <path d="M 20 20 C 20 40, 40 80, 80 80"></path> <!-- create initial Bèzier Curve--> 
      </svg>
+     <svg class="svgmouse" viewBox="0 0 500 500">
+        <rect x="0" y="0" width="500" height="500" fill="lightgrey"></rect>
+        <path d="M 50 50"></path> <!-- create initial Bèzier Curve--> 
 
+     </svg>
      <button onclick="Bezierclick()">CreateBezier</button>
      <script src="bezier.js"></script>
 
