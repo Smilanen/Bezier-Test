@@ -24,6 +24,7 @@ function draw(points) {
 
 function drawpoints(points) { //draws the Bèzier Curve
      //First point
+     debugger
      let dx = points[1].x - points[0].x
      let dy = points[1].y - points[0].y
      let c1x = points[0].x + 1/3 * dx
@@ -66,7 +67,6 @@ function mouseCoordinates(event){
      var xPos= event.pageX; // gets x coordinate
      var yPos= event.pageY; // gts  y coordinate
      cordinateoutput.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
-     return xPos
  }
  
 
@@ -80,7 +80,7 @@ mousy.addEventListener('click', (event) =>{
           var xPos= event.offsetX; // gets x coordinate
           var yPos= event.offsetY; // gts  y coordinate
           mousepoints.push({x: xPos, y: yPos})
-          Jange.innerHTML="bing" +xPos+ "" +"hello" + yPos;
+          Jange.innerHTML="Click (X) : " + xPos + " " +"pixels <br> Click (Y): " + yPos + " " + "pixels";
           mousy.insertAdjacentHTML("beforeend", `<circle cx=${xPos} cy=${yPos} r="2" fill="red"></circle>`)
           const path = drawpoints(mousepoints)
           console.log(path)
