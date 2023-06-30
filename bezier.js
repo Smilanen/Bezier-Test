@@ -22,9 +22,9 @@ function draw(points) {
      element.innerHTML += path 
 }
 
+// maybe Containers Elements for ease of use
 function drawpoints(points) { //draws the Bèzier Curve
      //First point
-     debugger
      let dx = points[1].x - points[0].x
      let dy = points[1].y - points[0].y
      let c1x = points[0].x + 1/3 * dx
@@ -32,6 +32,7 @@ function drawpoints(points) { //draws the Bèzier Curve
      let path = `<path class="demo" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds Cordinates to the L or Bèzier Curve (Q)
      // intermediate points
      for(let i = 1; i < points.length - 1; i++) { 
+          debugger
           const p = points[i]
           const prevPoint = points[i-1]
           const nextPoint = points[i+1]
@@ -66,7 +67,7 @@ var output= document.getElementById('output') // fetches id
 function mouseCoordinates(event){
      var xPos= event.pageX; // gets x coordinate
      var yPos= event.pageY; // gts  y coordinate
-     cordinateoutput.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
+     CordinateOutput.innerHTML= "Coordinate (X) : " + xPos + " " + "pixels <br>Coordinate (Y) : " + yPos + " " + "pixels"; // display the x,y coordinate
  }
  
 
@@ -80,7 +81,7 @@ mousy.addEventListener('click', (event) =>{
           var xPos= event.offsetX; // gets x coordinate
           var yPos= event.offsetY; // gts  y coordinate
           mousepoints.push({x: xPos, y: yPos})
-          Jange.innerHTML="Click (X) : " + xPos + " " +"pixels <br> Click (Y): " + yPos + " " + "pixels";
+          ClickCordinates.innerHTML="Click (X) : " + xPos + " " +"pixels <br> Click (Y): " + yPos + " " + "pixels";
           mousy.insertAdjacentHTML("beforeend", `<circle cx=${xPos} cy=${yPos} r="2" fill="red"></circle>`)
           const path = drawpoints(mousepoints)
           console.log(path)
@@ -108,3 +109,5 @@ function Bezierclick(event) {
 // draw track (width = constant?) (width higly likly done with normals )
 
 // colors
+
+
