@@ -22,7 +22,6 @@ function draw(points) {
      element.innerHTML += path 
 }
 
-// maybe Containers Elements for ease of use
 function drawpoints(points) { //draws the Bèzier Curve
      if(points.length <= 1) return ""
      //First point
