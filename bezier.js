@@ -41,7 +41,7 @@ function drawpoints(points) { //draws the Bèzier Curve
           const c1y = p.y - 1/6 * dy // controlpoint 1 y
           const c2x = p.x + 1/6 * dx // controlpoint 2 x
           const c2y = p.y + 1/6 * dy // controlpoint 2 y
-          path += `${c1x} ${c1y}, ${p.x} ${p.y}, ${c2x} ${c2y},`
+          path += `${c1x} ${c1y}, ${p.x} ${p.y}, ${c2x} ${c2y},` // += does an Additon
      }
      //last point
      const p = points.at(-1)
@@ -64,15 +64,15 @@ function getAllControlpoints(points) { //draws the Bèzier Curve
      let dy = points[1].y - points[0].y
      let c1x = points[0].x + 1/3 * dx
      let c1y = points[0].y + 1/3 * dy
-     let controlpoints = [points[0], {x: c1x, y: c1y}]
+     let controlpoints = [points[0], {x: c1x, y: c1y}] // first points of the array
      for(let i = 1; i < points.length - 1; i++) { 
           const p = points[i]
           const prevPoint = points[i-1]
           const nextPoint = points[i+1]
           const dx = nextPoint.x - prevPoint.x
           const dy = nextPoint.y - prevPoint.y
-          controlpoints.push({x: p.x - 1/6 * dx, y: p.y - 1/6 * dy})
-          controlpoints.push({x: p.x, y: p.y})
+          controlpoints.push({x: p.x - 1/6 * dx, y: p.y - 1/6 * dy}) // adds the controlpoints always at the end of the Array
+          controlpoints.push({x: p.x, y: p.y}) 
           controlpoints.push({x: p.x + 1/6 * dx, y: p.y + 1/6 * dy})
      }
      //last point
@@ -107,9 +107,9 @@ let mousy = document.querySelector(".svgmouse")
 mousy.addEventListener('click', (event) =>{
      if(active) {
           console.log(event) 
-          var xPos= event.offsetX; // gets x coordinate
-          var yPos= event.offsetY; // gts  y coordinate
-          mousepoints.push({x: xPos, y: yPos})
+          var xPos= event.offsetX; // gets x coordinate of the mouse cursor, relative to the target element
+          var yPos= event.offsetY; // gets  y coordinate of the mouse cursor, relative to the target element
+          mousepoints.push({x: xPos, y: yPos}) // displays the cordinates of the clicks relative to the div
           ClickCordinates.innerHTML="Click (X) : " + xPos + " " +"pixels <br> Click (Y): " + yPos + " " + "pixels";
           mousy.insertAdjacentHTML("beforeend", `<circle cx=${xPos} cy=${yPos} r="2" fill="red"></circle>`)
           const path = drawpoints(mousepoints)

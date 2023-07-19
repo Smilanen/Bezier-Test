@@ -10,8 +10,9 @@
     <style type="text/css">
           svg {height: 100px;}
           .svgmouse {height: 500px;}
-          path {fill: none; stroke: black;}
-          .demo {stroke: rgb(56, 200, 240);}
+          path {fill: none; stroke: rgb(100, 100, 100); stroke-width: 5;}
+          .smoothpath {stroke: rgb(50, 50, 50); stroke-width: 15;}
+          .pixel {fill: white}
      </style>
   </head>
   <body>
@@ -28,6 +29,7 @@
 
      </svg>
      <button onclick="Bezierclick()">CreateBezier</button>
+     <script src="bezierpoints.js"></script>
      <script src="bezier.js"></script>
 
   </body>
