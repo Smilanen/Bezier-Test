@@ -1,6 +1,6 @@
 const points = [
-     {x: 20, y: 20}, // x and y Cordinates of the Control Points. 
-     {x: 30, y: 20},
+     {x: 1, y: 1}, // x and y Cordinates of the Control Points svgtest window. 
+     {x: 10, y: 5},
      {x: 30, y: 30},
      {x: 40, y: 30},
      {x: 40, y: 40},
@@ -12,52 +12,52 @@ const points = [
      {x: 70, y: 70},
      {x: 80, y: 70},
      {x: 80, y: 80},
-     
 ]
 
+
 function draw(points) {
-     const element = document.querySelector(".svgtest")
+     const element = document.querySelector(".svgtest") //returns the first Element(.svgtest) within the document that matches the specified selector, or group of selectors.
      const path = drawpoints(points)
      console.log(path)
-     element.innerHTML += path 
+     element.innerHTML += path // inserts Bezierpoints into path (HTML)
 }
 
 function drawpoints(points) { //draws the Bèzier Curve
-     if(points.length <= 1) return ""
+     if(points.length <= 1) return "" // .length checks the length of the array. return nothing
      //First point
-     let dx = points[1].x - points[0].x
-     let dy = points[1].y - points[0].y
-     let c1x = points[0].x + 1/3 * dx
-     let c1y = points[0].y + 1/3 * dy
-     let path = `<path class="smoothpath" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds Cordinates to the L or Bèzier Curve (Q)
+     let dx = points[1].x - points[0].x // distance between first and second point (x Coordinate)
+     let dy = points[1].y - points[0].y // distance between first and second point (y Coordinate)
+     let c1x = points[0].x + 1/3 * dx // controlpoints for first point (x Coordiante)
+     let c1y = points[0].y + 1/3 * dy // controlpoints for first point (y Coordiante)
+     let path = `<path class="smoothpath" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds the first Cordinates to the L or Bèzier Curve (Q)
      // intermediate points
-     for(let i = 1; i < points.length - 1; i++) { 
+     for(let i = 1; i < points.length - 1; i++) {  // goes through the function for every point except the first one
           const p = points[i]
           const prevPoint = points[i-1]
           const nextPoint = points[i+1]
-          const dx = nextPoint.x - prevPoint.x
-          const dy = nextPoint.y - prevPoint.y
-          const c1x = p.x - 1/6 * dx
-          const c1y = p.y - 1/6 * dy
-          const c2x = p.x + 1/6 * dx
-          const c2y = p.y + 1/6 * dy
+          const dx = nextPoint.x - prevPoint.x // distance x
+          const dy = nextPoint.y - prevPoint.y // distance y
+          const c1x = p.x - 1/6 * dx // controlpoint 1 x
+          const c1y = p.y - 1/6 * dy // controlpoint 1 y
+          const c2x = p.x + 1/6 * dx // controlpoint 2 x
+          const c2y = p.y + 1/6 * dy // controlpoint 2 y
           path += `${c1x} ${c1y}, ${p.x} ${p.y}, ${c2x} ${c2y},`
      }
      //last point
      const p = points.at(-1)
      const prevPoint = points.at(-2)
-     dx = p.x - prevPoint.x
-     dy = p.y - prevPoint.y
-     c1x = p.x - 1/3 * dx
-     c1y = p.y - 1/3 * dy
+     dx = p.x - prevPoint.x // distance x
+     dy = p.y - prevPoint.y // distance y
+     c1x = p.x - 1/3 * dx // controlpoint 1 x
+     c1y = p.y - 1/3 * dy // controlpoint 1 y
      path += `${c1x} ${c1y}, ${p.x} ${p.y}`
      //close path tag
      path += `"></path>`
      return path
 }
 
-// maybe Containers Elements for ease of use
-function getAllControlpoints(points) { //draws the Bèzier Curve
+
+function getAllControlpoints(points) { //draws the Bèzier Curve 
      if(points.length <= 1) return ""
      //First point
      let dx = points[1].x - points[0].x
