@@ -1,6 +1,6 @@
   
 // Function to calculate the coordinates of points along the cubic Bezier curve
-function calculateCubicBezierPoints(controlPoints, numPoints) {
+function calculateCubicBezierPoints(controlPoints, numPoints) { // numpoints at the moment 50
      const points = [];
      for (let i = 0; i <= numPoints; i++) {
           const t = i / numPoints;
@@ -20,15 +20,15 @@ function calculateCubicBezierPoint(controlPoints, t) {
      const y2 = controlPoints[2].y;
      const x3 = controlPoints[3].x;
      const y3 = controlPoints[3].y;
-
-     const u = 1 - t;
+     // binomial Polynoms
+     const u = 1 - t;         
      const tt = t * t;
      const uu = u * u;
      const uuu = uu * u;
      const ttt = tt * t;
 
      const point = {
-          x: uuu * x0 + 3 * uu * t * x1 + 3 * u * tt * x2 + ttt * x3,
+          x: uuu * x0 + 3 * uu * t * x1 + 3 * u * tt * x2 + ttt * x3, // equation to create cubic bèzier curves (x is there for controlpoints)
           y: uuu * y0 + 3 * uu * t * y1 + 3 * u * tt * y2 + ttt * y3
      };
 
