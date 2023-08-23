@@ -12,6 +12,8 @@ function calculateCubicBezierPoints(controlPoints, numPoints) { // numpoints at 
 
 // Function to calculate a single point along the cubic Bezier curve
 function calculateCubicBezierPoint(controlPoints, t) {
+     if (controlPoints.length == 0) 
+          return 
      const x0 = controlPoints[0].x;
      const y0 = controlPoints[0].y;
      const x1 = controlPoints[1].x;
