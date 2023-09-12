@@ -1,6 +1,6 @@
   
 // Function to calculate the coordinates of points along the cubic Bezier curve
-function calculateCubicBezierPoints(controlPoints, numPoints) { // numpoints at the moment 50
+function calculateCubicBezierPoints(controlPoints, numPoints) { // numpoints at the moment 200
      const points = [];
      for (let i = 0; i <= numPoints; i++) {
           const t = i / numPoints;

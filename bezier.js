@@ -106,7 +106,6 @@ function mouseCoordinates(event){
 function curveDistance(p,controlPoints ){
      let d = Number.MAX_VALUE;
      let index = 0
-
      for (let i = 0; i < controlPoints.length; i++ ) {
           let q = Distance(controlPoints[i], p);
           if (q<d) {
@@ -118,11 +117,11 @@ function curveDistance(p,controlPoints ){
      return controlPoints[index]
 }
 
-function Distance () { // find distance between two points
-     let x1 = mousepoints[0].x
-     let y1 = mousepoints[0].y
-     let x2 = coordinates[0].x
-     let y2 = coordinates[0].y
+function Distance (point1,point2) { // find distance between two points
+     let x1 = point1.x
+     let y1 = point1.y
+     let x2 = point2.x
+     let y2 = point2.y
 
      let x = x2 - x1
      let y = y2 - y1
@@ -153,19 +152,23 @@ mousy.addEventListener('click', (event) =>{
 
           let controlpoints = getAllControlpoints(mousepoints) // calculates all the controlpoints
           console.log(controlpoints);
-          let pixels = calculateCubicBezierPoints(controlpoints.slice(0,4), 4) // creates an new sliced array 50 times (for the points)
+          let pixels = calculateCubicBezierPoints(controlpoints.slice(0,4), 200) // creates an new sliced array 50 times (for the points)
           mousy.querySelector(".pixel")?.remove() // does the same thing as path
-          const projectedPoint = curveDistance(mousepoints[0],controlpoints)
+          const projectedPoint = curveDistance(mousepoints[mousepoints.length - 1],controlpoints)
           console.log ("projected Point", projectedPoint)
+          mousy.insertAdjacentHTML("beforeend",`<line x1= ${xPos} y1=${yPos} x2 =${controlpoints[controlpoints.length -1].x} y2= y1 =${controlpoints[controlpoints.length -1].y}` )
           for(let p of pixels) { // p = p.x and p.y
                mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
                
           }
 
-          let distance = Distance(mousepoints, coordinates); // Calculate the distance
-          console.log("Distance:", distance);
+        //  let distance = Distance(controlpoints,p ); // Calculate the distance
+        //  console.log("Distance:", distance);
      }
 })
+
+
+
 
 function Bezierclick(event) {
      active = !active // ! = not
