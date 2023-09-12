@@ -1,4 +1,6 @@
-  
+// these function were created by prompting Chat-GPT
+
+
 // Function to calculate the coordinates of points along the cubic Bezier curve
 function calculateCubicBezierPoints(controlPoints, numPoints) { // numpoints at the moment 200
      const points = [];

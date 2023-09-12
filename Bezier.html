@@ -8,26 +8,18 @@
     <meta name="keywords" content="keywords" />
     <link rel="stylesheet" href="./stylesheet.css" type="text/css" />
     <style type="text/css">
-          svg {height: 100px;}
-          .svgmouse {height: 500px;}
-          path {fill: none; stroke: rgb(100, 100, 100); stroke-width: 5;}
-          .smoothpath {stroke: rgb(50, 50, 50); stroke-width: 15;}
+          .smoothpath {stroke: rgb(50, 50, 50); fill: none;}
           .pixel {fill: white}
      </style>
   </head>
   <body>
+     <div>μ <input type="range" name="mue" id="mue" min = 0.01 max="1.40" step="0.01"></div> 
+     <div>a_Brake <input type="range" name="abrk" id="abrk" min = -12 max="-1" step="0.5"></div> 
+     <div>a_Acc <input type="range" name="aacc" id="aacc" min = 0.5 max="12" step="0.5"></div> 
+      <div class="track"></div>
      <p id= 'CordinateOutput'></p> <!--Output for x,y coordinates of mouse-->
      <p id= "Clickcoordinates"></p>
      <button onclick="testdraw()">Draw</button>
-      <svg class="svgtest" viewBox="0 0 100 100"> 
-          <path d="M 20 20 L 20 80, 80 80"></path> <!--create triangle --> 
-          <path d="M 20 20 C 20 40, 40 80, 80 80"></path> <!-- create initial Bèzier Curve--> 
-     </svg> 
-     <svg class="svgmouse" viewBox="0 0 500 500"> <!--Interactable box for drawing Bèzier Curves-->
-        <rect x="0" y="0" width="500" height="500" fill="lightgrey"></rect>
-        <path d="M 50 50"></path> <!-- create initial Bèzier Curve--> 
-
-     </svg>
      <button onclick="Bezierclick()">CreateBezier</button>
      <script src="bezierpoints.js"></script>
      <script src="bezier.js"></script>
