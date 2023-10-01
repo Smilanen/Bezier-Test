@@ -26,13 +26,12 @@ function getMeterPos(event) {
 
 document.querySelector(".track").innerHTML = `     <svg class="svgmouse" viewBox="0 0 ${metersize}  ${metersize}
 "> <!--Interactable box for drawing Bèzier Curves-->
-<rect x="0" y="0" width=" ${metersize}" height=" ${metersize}" fill="lightgrey"></rect>
+<rect width=" ${metersize}" height=" ${metersize}" fill="lightgrey"></rect>
 </svg>`
 
 function draw(points) {
      const element = document.querySelector(".svgtest") //returns the first Element(.svgtest) within the document that matches the specified selector, or group of selectors.
      const path = drawpoints(points)
-     console.log(path)
      element.innerHTML += path // inserts Bezierpoints into path (HTML)
 }
 
