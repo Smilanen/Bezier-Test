@@ -8,14 +8,16 @@
   <body>
      <!--Displays-->
      <div class="track"></div> <!--Inserts all Beziercurve stuff-->
-     <p id= 'CordinateOutput'></p> <!--Output for x,y coordinates of mouse-->
+     <p id= "CordinateOutput"></p> <!--Output for x,y coordinates of mouse-->
      <p id= "Clickcoordinates"></p>
      <!--Sliders-->
-     <div>μ <input type="range" name="mue" id="mue" min = 0.01 max="1.40" step="0.01"></div> 
-     <div>a_Brake <input type="range" name="abrk" id="abrk" min = -12 max="-1" step="0.5"></div> 
-     <div>a_Acc <input type="range" name="aacc" id="aacc" min = 0.5 max="12" step="0.5"></div> 
+     <div class="sliders">
+      <div>μ<input type="range" name="mue" id="mue" min = 0.01 max="1.40" step="0.01"></div> 
+      <div>a_Brake<input type="range" name="abrk" id="abrk" min = -12 max="-1" step="0.5"></div> 
+      <div>a_Acc<input type="range" name="aacc" id="aacc" min = 0.5 max="12" step="0.5"></div>
+     </div>
      <!--Buttons-->
-     <button onclick="Bezierclick()">CreateBezier</button>
+     <button id ="CreateBezier" onclick="Bezierclick()">CreateBezier</button>
      <!--Scripts-->
      <script src="bezierpoints.js"></script>
      <script src="bezier.js"></script>

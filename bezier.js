@@ -24,7 +24,7 @@ function getMeterPos(event) {
      return {x: xPos / scale, y: yPos / scale}
 }
 
-document.querySelector(".track").innerHTML = `     <svg class="svgmouse" viewBox="0 0 ${metersize}  ${metersize}
+document.querySelector(".track").innerHTML = `     <svg class="svgmouse" viewBox="0 0 ${metersize} ${metersize}
 "> <!--Interactable box for drawing Bèzier Curves-->
 <rect width=" ${metersize}" height=" ${metersize}" fill="lightgrey"></rect>
 </svg>`

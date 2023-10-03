@@ -5,6 +5,25 @@
 .pixel {
      fill: white
 }
-.svgmouse {
-    margin: 150px 600px 300px 600px ; 
+.track {
+     position: absolute; 
+     top: 150px;
+     left: 520px; 
+}
+.sliders {
+    position: absolute;
+    top: 180px;
+    left:250px;
+}
+
+#CreateBezier {
+     position: absolute;
+     top: 680px;
+     left:730px;
+}
+
+#Clickcoordinates {
+     position: absolute;
+     top: 80px;
+     left: 660px;
 }
