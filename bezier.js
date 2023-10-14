@@ -23,7 +23,7 @@ function getAllControlpoints(points) { //draws the Bèzier Curve
      let dy = points[1].y - points[0].y
      let c1x = points[0].x + 1/3 * dx
      let c1y = points[0].y + 1/3 * dy
-     let path = `<path class="smoothpath" style="stroke-width:${trackwidth}" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds the first coordinates to the L or Bèzier Curve (Q)
+     let path = `<path class="smoothpath" style="stroke-width:${trackwidth}" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds the first coordinates to the or Bèzier Curve (C)
      let controlpoints = [points[0], {x: c1x, y: c1y}] // first points of the array
      for(let i = 1; i < points.length - 1; i++) {   
           const p = points[i]
@@ -57,9 +57,7 @@ function getAllControlpoints(points) { //draws the Bèzier Curve
       };
   }
   
-function testdraw() { //testdraw Button (draw) in html file.
-     draw(points)
-}
+
 
 // display Coordinates (whole document)
 document.onmousemove= mouseCoordinates; //applys onmousemove to the whole document
@@ -68,8 +66,7 @@ let output= document.getElementById('output') // fetches id
 
 // get the Coordiantes for whole page 
 function mouseCoordinates(event){
-     let {x, y} = getMeterPos(event)
-     ; 
+     let {x, y} = getMeterPos(event); 
      CordinateOutput.innerHTML= "Coordinate (X) : " + x + " " + "m <br>Coordinate (Y) : " + y + " " + "m"; // display the x,y coordinate (whole document )
  }
 
@@ -110,14 +107,13 @@ let active = false
 let mousepoints = [] // mousecoordiantes
 let controlpoints = []
 let pixels = []
-let coordinates = [{x: 231 , y: 100}]
 // calculate points and add them
 let mousy = document.querySelector(".svgmouse")
-mousy.setAttribute("width", pixelsize)
-mousy.setAttribute("height", pixelsize)
+mousy.setAttribute("width", pixelsize) // sets width and height of the viewport
+mousy.setAttribute("height", pixelsize) 
 mousy.addEventListener('click', (event) =>{
      if(active) {
-          let {x, y} = getMeterPos(event)
+          let {x, y} = getMeterPos(event);
           mousepoints.push({x: x, y: y}) // sends the coordinates to the Array
           Clickcoordinates.innerHTML="Click (X) : " + x + " " + "meters <br> Click (Y): " + y + " " + "meters"; // // displays the coordinates of the clicks relative to the div
           mousy.insertAdjacentHTML("beforeend", `<circle cx=${x} cy=${y} r="2" fill="red"></circle>`) // makes the red dots 
@@ -125,11 +121,10 @@ mousy.addEventListener('click', (event) =>{
           mousy.querySelector(".smoothpath")?.remove() // ?. returns undefined if an object is undefined or null otherwise removes the curve
           mousy.querySelectorAll(".pixel")?.forEach(p=>p.remove()) // ?. returns undefined if an object is undefined or null otherwise removes the curve
           mousy.insertAdjacentHTML("beforeend", path) // inserts the path Before the element so it gets replaced (old curve gets removed)
-
           let controlpoints = getAllControlpoints(mousepoints).controlpoints // calculates all the controlpoints
           pixels = []
           for(let i = 4; i <= controlpoints.length; i+=3) {
-               newPoints = calculateCubicBezierPoints(controlpoints.slice(i-4, i), 200) //200 is the amount of pixels
+               let newPoints = calculateCubicBezierPoints(controlpoints.slice(i-4, i), 200) //200 is the amount of pixels
                if(i > 4) {
                     newPoints = newPoints.slice(1)
                }
@@ -139,6 +134,7 @@ mousy.addEventListener('click', (event) =>{
                mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
                
           }
+          
           // for later
         //  let distance = Distance(controlpoints,p ); // Calculate the distance
         //  console.log("Distance:", distance);
@@ -151,13 +147,12 @@ mousy.addEventListener('pointermove', (event) =>{
           let {x, y} = getMeterPos(event)
           Clickcoordinates.innerHTML="Click (X) : " + x + " " +"meters <br> Click (Y): " + y + " " + "meters"; // // displays the coordinates of the clicks relative to the div
           mousy.querySelector(".closest")?.remove() // ?. returns undefined if an object is undefined or null otherwise removes the curve
-
           const projectedPoint = curveDistance({x: x, y: y} ,pixels)
-          console.log ("projected Point", projectedPoint)
           mousy.insertAdjacentHTML("beforeend",`<line class="closest" x1= ${x} y1=${y} x2 =${projectedPoint.x} y2=${projectedPoint.y}  stroke="black" stroke-width="2"/>` )
          // for later
         //  let distance = Distance(controlpoints,p ); // Calculate the distance
         //  console.log("Distance:", distance);
+
      }
 })
 
@@ -168,7 +163,7 @@ function Bezierclick(event) {
 
 
 
-
+console.log(threepointcircle(pixels))
 
 
 
