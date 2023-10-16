@@ -1,8 +1,9 @@
 
 
-let circleCoordinates = [] 
 
 function threepointcircle(pixels) {
+	
+	let circleCoordinates = [] 
 
      for (let index = 0, j = 3; index < pixels.length - 2; index++, j++) { // goes throught the array 
           
@@ -16,13 +17,14 @@ function threepointcircle(pixels) {
           }else {
 			let {x, y, r} = findCircle(threePoints[0], threePoints[1], threePoints[2])
 			circleCoordinates.push({x: x, y: y, r: r}) // send it to the Array
-			console.log(circleCoordinates)
+			//console.log(circleCoordinates)
 			
 
           }
-     return circleCoordinates
           
      }
+	return circleCoordinates
+
 
      
 }
