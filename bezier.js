@@ -16,6 +16,7 @@ document.querySelector(".track").innerHTML = `     <svg class="svgmouse" viewBox
 </svg>`
 
 
+
 function getAllControlpoints(points) { //draws the Bèzier Curve 
      if(points.length <= 1) return ""
      //First point
@@ -115,7 +116,7 @@ mousy.addEventListener('click', (event) =>{
      if(active) {
           let {x, y} = getMeterPos(event);
           mousepoints.push({x: x, y: y}) // sends the coordinates to the Array
-          Clickcoordinates.innerHTML="Click (X) : " + x + " " + "meters <br> Click (Y): " + y + " " + "meters"; // // displays the coordinates of the clicks relative to the div
+          Clickcoordinates.innerHTML="Click (X) : " + x.toFixed(2) + " " + "meters <br> Click (Y): " + y.toFixed(2) + " " + "meters"; // // displays the coordinates of the clicks relative to the div
           mousy.insertAdjacentHTML("beforeend", `<circle cx=${x} cy=${y} r="2" fill="red"></circle>`) // makes the red dots 
           const path = getAllControlpoints(mousepoints).path // draws curve
           mousy.querySelector(".smoothpath")?.remove() // ?. returns undefined if an object is undefined or null otherwise removes the curve
@@ -124,7 +125,7 @@ mousy.addEventListener('click', (event) =>{
           let controlpoints = getAllControlpoints(mousepoints).controlpoints // calculates all the controlpoints
           pixels = []
           for(let i = 4; i <= controlpoints.length; i+=3) {
-               let newPoints = calculateCubicBezierPoints(controlpoints.slice(i-4, i), 200) //200 is the amount of pixels
+               let newPoints = calculateCubicBezierPoints(controlpoints.slice(i-4, i), 10) //200 is the amount of pixels
                if(i > 4) {
                     newPoints = newPoints.slice(1)
                }
@@ -134,7 +135,8 @@ mousy.addEventListener('click', (event) =>{
                mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
                
           }
-          
+          console.log(threepointcircle(pixels)) // this is right place to implement this, now only for testing
+          console.log(speed(circleCoordinates))
           // for later
         //  let distance = Distance(controlpoints,p ); // Calculate the distance
         //  console.log("Distance:", distance);
@@ -145,28 +147,20 @@ mousy.addEventListener('click', (event) =>{
 mousy.addEventListener('pointermove', (event) =>{
      if(active && pixels.length > 0) {
           let {x, y} = getMeterPos(event)
-          Clickcoordinates.innerHTML="Click (X) : " + x + " " +"meters <br> Click (Y): " + y + " " + "meters"; // // displays the coordinates of the clicks relative to the div
+          Clickcoordinates.innerHTML="Click (X) : " + x.toFixed(2) + " " +"meters <br> Click (Y): " + y.toFixed(2) + " " + "meters"; // // displays the coordinates of the clicks relative to the div
           mousy.querySelector(".closest")?.remove() // ?. returns undefined if an object is undefined or null otherwise removes the curve
           const projectedPoint = curveDistance({x: x, y: y} ,pixels)
           mousy.insertAdjacentHTML("beforeend",`<line class="closest" x1= ${x} y1=${y} x2 =${projectedPoint.x} y2=${projectedPoint.y}  stroke="black" stroke-width="2"/>` )
-         // for later
+          // for later
         //  let distance = Distance(controlpoints,p ); // Calculate the distance
         //  console.log("Distance:", distance);
-
+          
      }
 })
 
 function Bezierclick(event) {
      active = !active // ! = not
 }
-
-
-
-
-console.log(threepointcircle(pixels))
-
-
-
 
 
 
