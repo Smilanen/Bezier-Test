@@ -139,7 +139,7 @@ mousy.addEventListener('click', (event) =>{
 
           let t = totalTime(pixels)
           console.log(t);
-          localStorage.path = JSON.stringify(controlpoints)
+          localStorage.path = JSON.stringify(controlpoints) // stores it into the localstorage so that it can be used for later.
           localStorage.pixels = JSON.stringify(pixels)
           localStorage.time = t
         //  let distance = Distance(controlpoints,p ); // Calculate the distance

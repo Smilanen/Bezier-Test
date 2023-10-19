@@ -9,13 +9,13 @@ function threepointcircle(pixels) {
           
           let threePoints = pixels.slice(index, j) // makes packages of three
 
-          if (calculateSlope(threePoints[0], threePoints[1]) == calculateSlope(threePoints[1], threePoints[2])){
+          if (calculateSlope(threePoints[0], threePoints[1]) == calculateSlope(threePoints[1], threePoints[2])){//if the threepoints are on one line it ignores it.
                console.log("ape")
 
 
 
-          }else {
-			let {x, y, r} = findCircle(threePoints[0], threePoints[1], threePoints[2])
+          }else {// if the three points are not on one line it calculates the circle.
+			let {x, y, r} = findCircle(threePoints[0], threePoints[1], threePoints[2]) 
 			circleCoordinates.push({x: x, y: y, r: r}) // send it to the Array
 			//console.log(circleCoordinates)
 			

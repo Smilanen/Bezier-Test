@@ -4,24 +4,22 @@
 // function for finding the right speed(v[m/s])
 function speed(circleCoordinate){
      let μ = document.getElementById("mue").value // static friction (friction between tires and road surface)
-     let a_Break = document.getElementById("abrk").value // brake strength (negetive acceleration)
-     let a_Acc = document.getElementById("aacc").value // acceleration of Car
      let g = 9.81 // in m/s^2  
-     let r = circleCoordinate.r
+     let r = circleCoordinate.r // radius of the circle
 
-     let v = Math.sqrt(μ*g*r)
-     return v
+     let v = Math.sqrt(μ*g*r) // speed which is possibe according to the laws of phyics on the circle.
+     return v 
 }
 
-function getPossibleSpeed(vmax, pixels) {
-     let a_Acc = Number(document.getElementById("aacc").value) // acceleration of Car
-     let a_Break = -Number (document.getElementById("abrk").value) 
-     let v = [0]
+function getPossibleSpeed(vmax, pixels) { // find the speed which is possible according to the cars Performance
+     let a_Acc = Number(document.getElementById("aacc").value) // acceleration of car
+     let a_Break = -Number (document.getElementById("abrk").value) // brakes of the car
+     let v = [0] // makes an array with the max speed
      for(let i = 1; i < vmax.length; i++)  {
-          let dx = pixels[i].x - pixels[i-1].x
+          let dx = pixels[i].x - pixels[i-1].x // the x coordinate difference between each pixels 
           let dy = pixels[i].y - pixels[i-1].y
-          let s = Math.sqrt(dx**2 + dy**2)
-          let vacc = Math.sqrt(2 * a_Acc *s + v[i-1]**2)
+          let s = Math.sqrt(dx**2 + dy**2)  // the route between each pixel
+          let vacc = Math.sqrt(2 * a_Acc *s + v[i-1]**2) // let the speed of the acceleration be 
           v.push(Math.min(vmax[i], vacc))
      }
      for(let i = vmax.length-2; i >= 0; i--)  {
