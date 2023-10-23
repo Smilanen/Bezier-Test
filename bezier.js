@@ -12,19 +12,19 @@ function getMeterPos(event) {
 // sets the viewbox and rectangle for the Beziercurve etc.
 document.querySelector(".track").innerHTML = `     <svg class="svgmouse" viewBox="0 0 ${metersize} ${metersize}
 "> <!--Interactable box for drawing Bèzier Curves-->
-<rect width=" ${metersize}" height=" ${metersize}" fill="lightgrey"></rect>
+<rect width=" ${metersize}" height=" ${metersize}" fill="rgb(134, 134, 134)"></rect>
 </svg>`
 
 
 
-function getAllControlpoints(points) { //draws the Bèzier Curve 
+function getAllControlpoints(points,width) { //draws the Bèzier Curve 
      if(points.length <= 1) return {}
      //First point
      let dx = points[1].x - points[0].x
      let dy = points[1].y - points[0].y
      let c1x = points[0].x + 1/3 * dx
      let c1y = points[0].y + 1/3 * dy
-     let path = `<path class="smoothpath" style="stroke-width:${trackwidth}" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds the first coordinates to the or Bèzier Curve (C)
+     let path = `<path class="smoothpath" style="stroke-width:${width}" d="M ${points[0].x} ${points[0].y} C ${c1x} ${c1y}, ` // Adds the first coordinates to the or Bèzier Curve (C)
      let controlpoints = [points[0], {x: c1x, y: c1y}] // first points of the array
      for(let i = 1; i < points.length - 1; i++) {   
           const p = points[i]
@@ -118,7 +118,7 @@ mousy.addEventListener('click', (event) =>{
           mousepoints.push({x: x, y: y}) // sends the coordinates to the Array
           Clickcoordinates.innerHTML="Click (X) : " + x.toFixed(2) + " " + "meters <br> Click (Y): " + y.toFixed(2) + " " + "meters"; // // displays the coordinates of the clicks relative to the div
           mousy.insertAdjacentHTML("beforeend", `<circle cx=${x} cy=${y} r="2" fill="red"></circle>`) // makes the red dots 
-          const path = getAllControlpoints(mousepoints).path // draws curve
+          const path = getAllControlpoints(mousepoints,trackwidth).path // draws curve
           mousy.querySelector(".smoothpath")?.remove() // ?. returns undefined if an object is undefined or null otherwise removes the curve
           mousy.querySelectorAll(".pixel")?.forEach(p=>p.remove()) // ?. returns undefined if an object is undefined or null otherwise removes the curve
           mousy.insertAdjacentHTML("beforeend", path) // inserts the path Before the element so it gets replaced (old curve gets removed)
@@ -138,8 +138,8 @@ mousy.addEventListener('click', (event) =>{
           }
 
           let t = totalTime(pixels)
-          console.log(t);
-          localStorage.path = JSON.stringify(controlpoints) // stores it into the localstorage so that it can be used for later.
+          //console.log(t);
+          localStorage.path = JSON.stringify(path) // stores it into the localstorage so that it can be used for later.
           localStorage.pixels = JSON.stringify(pixels)
           localStorage.time = t
         //  let distance = Distance(controlpoints,p ); // Calculate the distance
