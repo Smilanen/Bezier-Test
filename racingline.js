@@ -59,30 +59,43 @@ function totalTime(pixels) {
 
 async function calculateCorrections(pixels, time) {
      let corrections = []
-     for (let p of pixels) {
-         p.x = p.x + 0.00001
-         let tnewx = totalTime(pixels)
-         let dtx = time - tnewx
-         p.x = p.x - 0.00001
-         p.y = p.y + 0.00001
-         let tnewy = totalTime(pixels)
-         let dty = time - tnewy
-         p.y = p.y - 0.00001
-         corrections.push({ x: dtx * 1, y: dty * 1 })
+     const d = 0.000000001
+     for (let i = 0; i < pixels.length; i++) {
+          if(i == 0 || i == pixels.length - 1) {
+               corrections.push({ x: 0, y: 0 })
+               continue
+          }
+          const p = pixels[i]
+          p.x = p.x - d
+          let tleft = totalTime(pixels)
+          p.x = p.x + 2 * d
+          let tright = totalTime(pixels)
+          p.x = p.x - d
+          let dtx = tleft - tright
+          p.y = p.y - d
+          let tup = totalTime(pixels)
+          p.y = p.y + 2 * d
+          let tdown = totalTime(pixels)
+          p.y = p.y - d
+          let dty = tup - tdown
+          //equal spread
+          dx = (pixels[i+1].x - p.x) - (p.x - pixels[i-1].x)
+          dy = (pixels[i+1].y - p.y) - (p.y - pixels[i-1].y)
+
+          corrections.push({ x: dtx * 10000000 + 0.001* dx, y: dty * 10000000 + 0.001* dy })
+          //console.log(dtx, dty);
      }
      return corrections
  }
  
- async function visualizeCorrections(pixels, corrections, path, oldpixels, index = 0) {
+function applyCorrections(pixels, corrections, path, oldpixels, index = 0) {
      if (index >= pixels.length) {
           return;  // All steps visualized, exit the function
      }
      pixels[index].x += corrections[index].x
      pixels[index].y += corrections[index].y
-     await sleep(10000)
-     updateVisualization (path, pixels, oldpixels) // update visualization here
-     await sleep(1000);  // Wait for 1 second
-     visualizeCorrections(pixels, corrections, path, oldpixels, index + 1);  // Recurse to the next step
+     //await sleep(1000)
+     applyCorrections(pixels, corrections, path, oldpixels, index + 1);  // Recurse to the next step
      
  }
  
@@ -90,12 +103,20 @@ async function calculateCorrections(pixels, time) {
      let path = JSON.parse(localStorage.path)
      let time = Number(localStorage.time)
      let pixels = JSON.parse(localStorage.pixels)
-     let oldpixels = JSON.parse(localStorage.oldpixels)
+     let oldPixels = JSON.parse(localStorage.oldPixels)
      // Draw initial state
      drawInitialVisualization(path, pixels)
  
-     let corrections = await calculateCorrections(pixels, time)
-     visualizeCorrections(pixels, corrections, path, oldpixels)
+     for(let step = 0; step < 1000000; step++) {
+          let corrections = await calculateCorrections(pixels, time)
+          applyCorrections(pixels, corrections, path, oldPixels)
+          if(step % 100 == 0) {
+               await sleep(0.1)
+               console.log(totalTime(pixels));
+               updateVisualization(path, pixels, oldPixels)
+          }
+     }
+
  
      // Continue with the rest of your optimization logic or visualization if needed
  }
@@ -117,11 +138,11 @@ async function calculateCorrections(pixels, time) {
 
      
      for (let p of pixels){
-          mousy.insertAdjacentHTML("beforeend",`<circle class="newpixel" cx=${p.x}  cy=${p.y} r=1></circle>`)     
+          mousy.insertAdjacentHTML("beforeend",`<circle class="newpixel" cx=${p.x}  cy=${p.y} r=0.3></circle>`)     
      }
 
      for (let p of oldpixels){
-          mousy.insertAdjacentHTML("beforeend",`<circle class="oldpixel" cx=${p.x}  cy=${p.y} r=1></circle>`)     
+          mousy.insertAdjacentHTML("beforeend",`<circle class="oldpixel" cx=${p.x}  cy=${p.y} r=0.3></circle>`)     
      }
      
      // Update the visualization with the new positions of pixels
