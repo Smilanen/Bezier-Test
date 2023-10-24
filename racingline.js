@@ -1,5 +1,8 @@
 
 
+const sleep = ms => new Promise(res => setTimeout(res, ms)); // for slowdown 
+
+
 
 // function for finding the right speed(v[m/s])
 function speed(circleCoordinate){
@@ -54,65 +57,140 @@ function totalTime(pixels) {
 }
 
 
+async function calculateCorrections(pixels, time) {
+     let corrections = []
+     for (let p of pixels) {
+         p.x = p.x + 0.00001
+         let tnewx = totalTime(pixels)
+         let dtx = time - tnewx
+         p.x = p.x - 0.00001
+         p.y = p.y + 0.00001
+         let tnewy = totalTime(pixels)
+         let dty = time - tnewy
+         p.y = p.y - 0.00001
+         corrections.push({ x: dtx * 1, y: dty * 1 })
+     }
+     return corrections
+ }
+ 
+ async function visualizeCorrections(pixels, corrections, path) {
+     for (let i = 0; i < pixels.length; i++) {
+         pixels[i].x += corrections[i].x
+         pixels[i].y += corrections[i].y
+         await sleep(1000)
 
-
-
-
-
-
-
-
-function optimize() {
-     let path = JSON.parse(localStorage.path) // takes it out of the local storage
+         updateVisualization (path, pixels) // update visualization here
+     }
+ }
+ 
+ async function optimize() {
+     let path = JSON.parse(localStorage.path)
      let time = Number(localStorage.time)
      let pixels = JSON.parse(localStorage.pixels)
-     let mousy = document.querySelector(".svgmouse")
+ 
+     // Draw initial state
+     drawInitialVisualization(path, pixels)
+ 
+     let corrections = await calculateCorrections(pixels, time)
+     await visualizeCorrections(pixels, corrections, path)
+ 
+     // Continue with the rest of your optimization logic or visualization if needed
+ }
+ 
+ function drawInitialVisualization(path, pixels) {
+     // Draw the initial state of the curve and pixels
+     mousy.insertAdjacentHTML("beforeend", path)
+     localStorage.oldpixels = JSON.stringify(pixels)
+     for (let p of pixels) {
+         mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`)
+     }
+ }
+ 
+ function updateVisualization (path, pixels) {
+     
+     mousy.innerHTML = ""
+     mousy.insertAdjacentHTML("beforeend", path)
+     
+     for (let p of pixels){
+          mousy.insertAdjacentHTML("beforeend",`<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`)     
+     }
+     
+     // Update the visualization with the new positions of pixels
+     // This function should redraw the entire SVG with the updated pixel positions
+ }
+ 
 
 
-     const sleep = (milliseconds) => {
-          return new Promise(resolve => setTimeout(resolve, milliseconds))
-        }
 
 
-     mousy.insertAdjacentHTML("beforeend", path)// draws the curve
-     for(let p of pixels) { // p = p.x and p.y
-          mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  async function optimize() {
+//      let path = JSON.parse(localStorage.path) // takes it out of the local storage
+//      let time = Number(localStorage.time)
+//      let pixels = JSON.parse(localStorage.pixels)
+//      let mousy = document.querySelector(".svgmouse")
+
+
+//      const sleep = (milliseconds) => {
+//           return new Promise(resolve => setTimeout(resolve, milliseconds))
+//         }
+
+
+//      mousy.insertAdjacentHTML("beforeend", path)// draws the curve
+//      for(let p of pixels) { // p = p.x and p.y
+//           mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
           
-     }
+//      }
 
-     //console.log(pixels, time);
-     for(let n = 0; n < 500; n++) { // 500 steps
-          let movedPixels = JSON.parse(JSON.stringify(pixels)) //deep copy array
-          let corrections = [] // corrected path
-          for(let p of movedPixels) { // for every pixels
-               p.x = p.x + 0.00001 // moves it by 0.0001
-               let tnewx = totalTime(movedPixels) // new time with correction
-               let dtx = time - tnewx // time difference between old and moved
-               p.x = p.x - 0.00001 // reverts the change
-               p.y = p.y + 0.00001 // same for y coordinates
-               let tnewy = totalTime(movedPixels)
-               let dty = time - tnewy
-               p.y = p.y - 0.00001
-               corrections.push({x: dtx * 1, y: dty * 1}) // shows how much it improved for x and y
-          }
+//      //console.log(pixels, time);
+//      for(let n = 0; n < 500; n++) { // 500 steps
+//           let movedPixels = JSON.parse(JSON.stringify(pixels)) //deep copy array
+//           let corrections = [] // corrected path
+//           for(let p of movedPixels) { // for every pixels
+//                p.x = p.x + 0.00001 // moves it by 0.0001
+//                let tnewx = totalTime(movedPixels) // new time with correction
+//                let dtx = time - tnewx // time difference between old and moved
+//                p.x = p.x - 0.00001 // reverts the change
+//                p.y = p.y + 0.00001 // same for y coordinates
+//                let tnewy = totalTime(movedPixels)
+//                let dty = time - tnewy
+//                p.y = p.y - 0.00001
+//                corrections.push({x: dtx * 1, y: dty * 1}) // shows how much it improved for x and y
+//           }
 
-          const doSomething = async () => {
-               for(let i = 0; i < pixels.length; i++) {
-                    pixels[i].x += corrections[i].x // 
-                    pixels[i].y += corrections[i].y
-                    await sleep(1000)
-                    for(let p of pixels) { // p = p.x and p.y
-                    mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
-                   
-               }
-                   
-               }
-          }
-          doSomething()
+          
+//           for(let i = 0; i < pixels.length; i++) {
+//                pixels[i].x += corrections[i].x // 
+//                pixels[i].y += corrections[i].y
+//                await sleep(1000)
+//                for(let p of pixels) { // p = p.x and p.y
+//                     mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`) // makes the small white points in the middle
+//                }
+//           }
+          
+          
 
 
-          let t = totalTime(pixels)
-          console.log(t);
-     }
+//           let t = totalTime(pixels)
+//           console.log(t);
+//      }
 
-}
+// }
+
+// function sleep(ms){
+//      return new Promise(resolve => setTimeout(resolve, ms))
+
+// }
