@@ -11,6 +11,16 @@ body {
 .pixel {
      fill: white
 }
+
+.newpixel {
+     fill: rgb(235, 10, 10)
+}
+
+.oldpixel {
+     fill: rgb(232, 6, 217)
+}
+
+
 .track {
      position: absolute; 
      top: 150px;

@@ -73,26 +73,29 @@ async function calculateCorrections(pixels, time) {
      return corrections
  }
  
- async function visualizeCorrections(pixels, corrections, path) {
-     for (let i = 0; i < pixels.length; i++) {
-         pixels[i].x += corrections[i].x
-         pixels[i].y += corrections[i].y
-         await sleep(1000)
-
-         updateVisualization (path, pixels) // update visualization here
+ async function visualizeCorrections(pixels, corrections, path, oldpixels, index = 0) {
+     if (index >= pixels.length) {
+          return;  // All steps visualized, exit the function
      }
+     pixels[index].x += corrections[index].x
+     pixels[index].y += corrections[index].y
+     await sleep(10000)
+     updateVisualization (path, pixels, oldpixels) // update visualization here
+     await sleep(1000);  // Wait for 1 second
+     visualizeCorrections(pixels, corrections, path, oldpixels, index + 1);  // Recurse to the next step
+     
  }
  
  async function optimize() {
      let path = JSON.parse(localStorage.path)
      let time = Number(localStorage.time)
      let pixels = JSON.parse(localStorage.pixels)
- 
+     let oldpixels = JSON.parse(localStorage.oldpixels)
      // Draw initial state
      drawInitialVisualization(path, pixels)
  
      let corrections = await calculateCorrections(pixels, time)
-     await visualizeCorrections(pixels, corrections, path)
+     visualizeCorrections(pixels, corrections, path, oldpixels)
  
      // Continue with the rest of your optimization logic or visualization if needed
  }
@@ -104,15 +107,21 @@ async function calculateCorrections(pixels, time) {
      for (let p of pixels) {
          mousy.insertAdjacentHTML("beforeend", `<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`)
      }
+     
  }
  
- function updateVisualization (path, pixels) {
+ function updateVisualization (path, pixels, oldpixels) {
      
      mousy.innerHTML = ""
      mousy.insertAdjacentHTML("beforeend", path)
+
      
      for (let p of pixels){
-          mousy.insertAdjacentHTML("beforeend",`<circle class="pixel" cx=${p.x}  cy=${p.y} r=1></circle>`)     
+          mousy.insertAdjacentHTML("beforeend",`<circle class="newpixel" cx=${p.x}  cy=${p.y} r=1></circle>`)     
+     }
+
+     for (let p of oldpixels){
+          mousy.insertAdjacentHTML("beforeend",`<circle class="oldpixel" cx=${p.x}  cy=${p.y} r=1></circle>`)     
      }
      
      // Update the visualization with the new positions of pixels
