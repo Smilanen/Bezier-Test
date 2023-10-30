@@ -41,5 +41,15 @@ body {
 #Clickcoordinates {
      position: absolute;
      top: 80px;
-     left: 660px;
+     left: 540px;
 }
+
+#Coordinatetracker {
+     position: absolute;
+     top: 80px;
+     left: 860px;
+     font-style: oblique;
+}
+
+
+

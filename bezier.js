@@ -68,7 +68,7 @@ let output= document.getElementById('output') // fetches id
 // get the Coordiantes for whole page 
 function mouseCoordinates(event){
      let {x, y} = getMeterPos(event); 
-     CordinateOutput.innerHTML= "Coordinate (X) : " + x + " " + "m <br>Coordinate (Y) : " + y + " " + "m"; // display the x,y coordinate (whole document )
+     CordinateOutput.innerHTML= "Coordinate (X) : " + x.toFixed(2) + " " + "m <br>Coordinate (Y) : " + y.toFixed(2)  + " " + "m"; // display the x,y coordinate (whole document )
  }
 
 
@@ -81,6 +81,7 @@ function curveDistance(p, controlPoints ){
           if (q<d) {
                d = q
                index = i
+
           }
      }
      return controlPoints[index]
@@ -128,7 +129,7 @@ mousy.addEventListener('click', (event) =>{
           for(let i = 4; i <= controlpoints.length; i+=3) {
                let newPoints = calculateCubicBezierPoints(controlpoints.slice(i-4, i), 10) //200 is the amount of pixels
                if(i > 4) {
-                    newPoints = newPoints.slice(1)
+                    newPoints = newPoints.slice(1) // to prevent doing the first point twice when beziercurves connect
                }
                pixels = pixels.concat(newPoints)         
           }
@@ -138,6 +139,7 @@ mousy.addEventListener('click', (event) =>{
           }
 
           let t = totalTime(pixels)
+          console.log(pixels);
           //console.log(t);
           localStorage.path = JSON.stringify(path) // stores it into the localstorage so that it can be used for later.
           localStorage.pixels = JSON.stringify(pixels)
@@ -153,14 +155,19 @@ mousy.addEventListener('click', (event) =>{
 mousy.addEventListener('pointermove', (event) =>{
      if(active && pixels.length > 0) {
           let {x, y} = getMeterPos(event)
-          Clickcoordinates.innerHTML="Click (X) : " + x.toFixed(2) + " " +"meters <br> Click (Y): " + y.toFixed(2) + " " + "meters"; // // displays the coordinates of the clicks relative to the div
+          Coordinatetracker.innerHTML="Cord (X) : " + x.toFixed(2) + " " +"meters <br> Cord (Y): " + y.toFixed(2) + " " + "meters"; // // displays the coordinates of the clicks relative to the div
           mousy.querySelector(".closest")?.remove() // ?. returns undefined if an object is undefined or null otherwise removes the curve
           const projectedPoint = curveDistance({x: x, y: y} ,pixels)
           mousy.insertAdjacentHTML("beforeend",`<line class="closest" x1= ${x} y1=${y} x2 =${projectedPoint.x} y2=${projectedPoint.y}  stroke="black" stroke-width="2"/>` )
           // for later
         //  let distance = Distance(controlpoints,p ); // Calculate the distance
         //  console.log("Distance:", distance);
-          
+        
+     //    const tolerance = 0.0001; // Tolerance for stopping the binary search
+     //    let controlpoints = getAllControlpoints(mousepoints).controlpoints
+     //    const closestT = findClosestPointOnBezier({x, y}, pixels , controlpoints, tolerance);
+     //    console.log("Parameter (t) for Closest Point:", closestT);
+     //    mousy.insertAdjacentHTML("beforeend",`<line class="closest" x1= ${x} y1=${y} x2 =${findClosestPointOnBezier.x} y2=${findClosestPointOnBezier.y}  stroke="black" stroke-width="2"/>` )
      }
 })
 
@@ -171,3 +178,62 @@ function Bezierclick(event) {
 
 
 
+
+
+
+
+
+
+
+
+
+// function findClosestPointOnBezier(p, pixels , controlPoints, tolerance) {
+//      // Find the initial projectedPoint  index that provides a good initial guess
+     
+//      let d = Number.MAX_VALUE; 
+//      let index = 0
+//      for (let i = 0; i < pixels.length; i++ ) {
+//           let q = Distance(pixels[i], p);
+//           if (q<d) {
+//                d = q
+//                index = i
+//           }
+//      }
+//      let t1 = index > 0 ? pixels[index - 1].t : 0;
+//      let t2 = index < pixels.length - 1 ? pixels[index + 1].t : 1;
+//      let interval = t2 - t1;
+ 
+//      while (interval > tolerance) {
+//          const t3 = t1 + interval / 3;
+//          const t4 = t1 + (2 * interval) / 3;
+ 
+//          const point1 = calculateCubicBezierPoint(controlPoints, t1)
+//          const point3 = calculateCubicBezierPoint(controlPoints, t3)
+//          const point4 = calculateCubicBezierPoint(controlPoints, t4)
+//          const point2 = calculateCubicBezierPoint(controlPoints, t2)
+ 
+//          const dist1 = Distance(p, point1);
+//          const dist3 = Distance(p, point3);
+//          const dist4 = Distance(p, point4);
+//          const dist2 = Distance(p, point2);
+//       if (dist1 < dist2 && dist1 < dist3 && dist1 < dist4) {
+//              t2 = t3;
+//          } else if (dist2 < dist3 && dist2 < dist4) {
+//              t1 = t3;
+//              t2 = t4;
+//          } else if (dist3 < dist4) {
+//              t1 = t4;
+//          } else {
+//              t1 = t3;
+//          }
+ 
+//          interval = t2 - t1;
+//      }
+ 
+//      // Final t value that gives the closest point
+//      return (t1 + t2) / 2;
+//  }
+ 
+ 
+ 
+ 
